@@ -9,7 +9,48 @@ let isResponseGenerating = false;
 
 const API_KEY = "AIzaSyCYZuYixVwHgSmq9bvTbNV0mr2aIVwikvA"; 
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
-
+// fetch(API_URL, {
+//   method: "POST",
+//   headers: {
+//     "Content-Type": "application/json"
+//   },
+//   body: JSON.stringify({
+//     contents: [
+//       {
+//         parts: [
+//           { text: "Hello AI, how are you?" }
+//         ]
+//       }
+//     ]
+//   })
+// })
+//   .then(res => res.json())
+//   .then(data => console.log("Gemini response:", data))
+//   .catch(err => console.error("Fetch error:", err));
+fetch(API_URL, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    contents: [
+      {
+        parts: [
+          { text: "Hello AI, how are you?" }
+        ]
+      }
+    ]
+  })
+})
+  .then(res => res.json())
+  .then(data => {
+    console.log("Full response:", data);
+    
+    
+    const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+    console.log("Gemini says:", aiText);
+  })
+  .catch(err => console.error("Fetch error:", err));
 const loadDataFromLocalstorage = () => {
   const savedChats = localStorage.getItem("saved-chats");
   const isLightMode = (localStorage.getItem("themeColor") === "light_mode");
